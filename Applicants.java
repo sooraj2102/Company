@@ -32,6 +32,7 @@ public class Applicants extends AppCompatActivity {
         adapter=new ApplicantsAdapter(applicants);
         recyclerView.setAdapter(adapter);
         submit.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
                 click=true;

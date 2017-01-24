@@ -14,6 +14,7 @@ import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+
 public class ServiceGenerator {
 public static String API_BASE_URL="http://gyanjulatechnologies.com/MbaTestSeries/index.php/TestSeries/";
 private static OkHttpClient.Builder httpClient=new OkHttpClient.Builder()

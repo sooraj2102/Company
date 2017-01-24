@@ -28,6 +28,7 @@ EditText username,password;
                 {
                     Snackbar.make(findViewById(android.R.id.content),"Please fill the details completely",Snackbar.LENGTH_SHORT).show();
                     return;
+
                 }
                 Bundle bundle=new Bundle();
                 bundle.putBoolean("click",false);

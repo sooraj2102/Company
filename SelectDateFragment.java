@@ -24,6 +24,7 @@ public class SelectDateFragment extends DialogFragment implements DatePickerDial
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         try {
+
             d = sdf.parse(date);
             minDate=sdf.parse(min);
             maxDate=sdf.parse(max);

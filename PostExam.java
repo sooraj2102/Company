@@ -81,6 +81,7 @@ EditText date,time,venue;
                     public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
                         time.setText( selectedHour + ":" + selectedMinute);
                     }
+
                 }, hour, minute, true);//Yes 24 hour time
                 mTimePicker.setTitle("Select Time");
                 mTimePicker.show();

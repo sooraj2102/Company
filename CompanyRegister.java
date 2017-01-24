@@ -1,5 +1,6 @@
 package mbatestseries.com.technologies.gyanjula.gtavantage.company;
 
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import org.apache.http.HttpEntity;
@@ -36,7 +38,7 @@ import java.util.Locale;
 
 public class CompanyRegister extends AppCompatActivity {
 
-    EditText comp_name,job_name,job_desc,comp_desc,salary,exp,user,pass,note,website;
+    EditText comp_name,job_name,job_desc,comp_desc,salary,exp,reg_start,reg_end,note,website,ven,tim;
     Button reg;
     Spinner ten_per,twel_per,grad_per;
     int k;
@@ -45,7 +47,7 @@ public class CompanyRegister extends AppCompatActivity {
     ArrayAdapter<String> adapter1,adapter2,adapter3;
     int pos1,pos2,pos3;
 
-    String suser,spass,cname,jname,jdesc,cdesc,sal,ex,no,web,tper,twper,gper;
+    String ve,etim,cname,jname,jdesc,cdesc,sal,ex,reg_st,reg_en,no,web,tper,twper,gper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,10 +59,12 @@ public class CompanyRegister extends AppCompatActivity {
         comp_desc=(EditText)findViewById(R.id.comp_desc);
         salary=(EditText)findViewById(R.id.salary);
         exp=(EditText)findViewById(R.id.exp_req);
+        reg_start=(EditText)findViewById(R.id.reg_start_date);
+        reg_end=(EditText)findViewById(R.id.reg_end_date);
         note=(EditText)findViewById(R.id.note);
-        user=(EditText)findViewById(R.id.username);
-        pass=(EditText)findViewById(R.id.password);
         website=(EditText)findViewById(R.id.comp_website);
+        ven=(EditText)findViewById(R.id.venue);
+        tim=(EditText)findViewById(R.id.event_time);
         ten_per=(Spinner) findViewById(R.id.ten_per_required);
         twel_per=(Spinner) findViewById(R.id.twel_per_required);
         grad_per=(Spinner) findViewById(R.id.grad_per_required);
@@ -126,6 +130,37 @@ public class CompanyRegister extends AppCompatActivity {
             }
         });
 
+        final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+                // TODO Auto-generated method stub
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH, monthOfYear);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+               /* if(k==0) {
+                    updateLabel(reg_end);
+                }*/
+                if(k==1) {
+                    updateLabel(reg_start);
+                }
+            }
+
+        };
+
+
+        reg_start.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                k=1;
+                // TODO Auto-generated method stub
+                new DatePickerDialog(CompanyRegister.this, date, myCalendar
+                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
 
 
         reg.setOnClickListener(new View.OnClickListener() {
@@ -138,19 +173,21 @@ public class CompanyRegister extends AppCompatActivity {
                 cdesc=comp_desc.getText().toString();
                 sal=salary.getText().toString();
                 ex=exp.getText().toString();
+                reg_st=reg_start.getText().toString();
+                reg_en=reg_end.getText().toString();
                 no=note.getText().toString();
                 web=website.getText().toString();
                 tper=per1.get(pos1);
                 twper=per2.get(pos2);
-                suser=user.getText().toString();
-                spass=pass.getText().toString();
+                ve=ven.getText().toString();
+                etim=tim.getText().toString();
                 gper=per3.get(pos3);
 
                 if(NetworkCheck.isNetworkAvailable(getApplicationContext())) {
 
                     if(cname.equals("") || jname.equals("") || jdesc.equals("") || cdesc.equals("") || sal.equals("") ||
-                            ex.equals("") || suser.equals("") || spass.equals("") || no.equals("") || web.equals("") ||
-                            tper.equals("") || twper.equals("")  || gper.equals("")||
+                            ex.equals("") || reg_st.equals("") || reg_en.equals("") || no.equals("") || web.equals("") ||
+                            tper.equals("") || twper.equals("") || ve.equals("") || etim.equals("") || gper.equals("")||
                             pos1==0 || pos2==0 || pos3==0)
                     {
                         Snackbar.make(findViewById(android.R.id.content), "Please fill all entries", Snackbar.LENGTH_LONG)
@@ -158,7 +195,7 @@ public class CompanyRegister extends AppCompatActivity {
                                 .show();
                     }
                     else{
-                    register(cname, jname, jdesc, cdesc, sal, ex,suser,spass, no, web, tper, twper, gper);
+                    register(cname, jname, jdesc, cdesc, sal, ex, reg_st, reg_en, no, web, tper, twper, gper,ve,etim);
                 }
                 }
                 else{
@@ -182,7 +219,7 @@ public class CompanyRegister extends AppCompatActivity {
     }
 
 
-    public void register(final String cname,final String jname,final String jdesc,final String cdesc,final String sal,final String ex,final String user,final String pass,final String no,final String web,final String tper,final String twper,final String gper){
+    public void register(final String cname,final String jname,final String jdesc,final String cdesc,final String sal,final String ex,final String reg_st,final String reg_en,final String no,final String web,final String tper,final String twper,final String gper,final String venue,final String event_time){
         class RegisterAsync extends AsyncTask<String, Void, String> {
 
             private Dialog loadingDialog;
@@ -202,13 +239,15 @@ public class CompanyRegister extends AppCompatActivity {
                 String cdes=params[3];
                 String sa=params[4];
                 String ex=params[5];
-                String user=params[6];
-                String pass=params[7];
+                String rs=params[6];
+                String ren=params[7];
                 String note=params[8];
                 String we=params[9];
                 String tp=params[10];
                 String twp=params[11];
                 String gp=params[12];
+                String ven=params[13];
+                String etime=params[14];
 
                 InputStream is = null;
                 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
@@ -218,8 +257,7 @@ public class CompanyRegister extends AppCompatActivity {
                 nameValuePairs.add(new BasicNameValuePair("comp_desc", cdes));
                 nameValuePairs.add(new BasicNameValuePair("salary", sa));
                 nameValuePairs.add(new BasicNameValuePair("experience", ex));
-                nameValuePairs.add(new BasicNameValuePair("username", user));
-                nameValuePairs.add(new BasicNameValuePair("pass", pass));
+                nameValuePairs.add(new BasicNameValuePair("event_date", rs));
                 nameValuePairs.add(new BasicNameValuePair("per_req", ren));
                 nameValuePairs.add(new BasicNameValuePair("note", note));
                 nameValuePairs.add(new BasicNameValuePair("website", we));
