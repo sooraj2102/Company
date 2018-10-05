@@ -78,6 +78,9 @@ public class Applicants extends AppCompatActivity {
                     getIntent().getExtras().getString("time"),
                     getIntent().getExtras().getString("venue")
                     );
+           
+           
+           
             call.enqueue(new Callback<appliedPOJO>() {
                 @Override
                 public void onResponse(Call<appliedPOJO> call, Response<appliedPOJO> response) {
