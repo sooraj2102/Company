@@ -1,5 +1,6 @@
 package mbatestseries.com.technologies.gyanjula.gtavantage.company.Activity;
 
+
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.design.widget.Snackbar;
@@ -84,5 +85,5 @@ EditText username,password;
                 finish();
             }
         });
-    }
+    } 
 }
