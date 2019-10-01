@@ -17,7 +17,7 @@ import mbatestseries.com.technologies.gyanjula.gtavantage.company.R;
 /**
  * Created by sooraj on 23-01-2017.
  */
-
+//Changes for HactoberFest 2019
 public class ApplicantsAdapter extends RecyclerView.Adapter<ApplicantsAdapter.viewHolder> {
     List<String> applicants,selectedMobile,mobile;
     // OnItemCheckListener onItemCheckListener;
