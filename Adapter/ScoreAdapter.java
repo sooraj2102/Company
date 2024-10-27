@@ -53,4 +53,3 @@ public class ScoreAdapter extends RecyclerView.Adapter<ScoreAdapter.viewHolder> 
         }
     }
 }
-
